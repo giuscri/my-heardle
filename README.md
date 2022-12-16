@@ -1,3 +1,9 @@
+# TODO
+- [] use redis by upstash (to avoid the issue with AWS VPN setup)
+- [] make it available over the internet (this is a good side-project to show to recruiters)
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
