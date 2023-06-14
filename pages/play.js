@@ -1,7 +1,7 @@
 import { useState } from "react"
 import confetti from "canvas-confetti"
 
-export default function Play({ title, artist, audioSrc, thumbnailSrc }) {
+export default function Play({ title, artist, url, thumbnail }) {
   const MAX_SCORE = 5000
   const STEP = 2000
   const [score, setScore] = useState(MAX_SCORE)
@@ -60,7 +60,7 @@ export default function Play({ title, artist, audioSrc, thumbnailSrc }) {
 
       <div className={`${!guessed && 'hidden'} flex flex-col items-center`}>
         <p className=''>{title.length > 30 ? title.slice(0,30)+'...' : title}</p>
-        <img src={thumbnailSrc} className="h-[300px] min-h-[300px] self-center rounded-sm shadow-xl shadow-lime-50"/>
+        <img src={thumbnail} className="h-[300px] min-h-[300px] self-center rounded-sm shadow-xl shadow-lime-50"/>
         <button onClick={nextSongHandler} className="mt-2 rounded-full px-2 py-1 border-4 border-lime-50 shadow-white shadow-lg hover:bg-lime-50 hover:text-[#0F0F19] transition duration-500 hover:scale-110">Next song!</button>
       </div>
 
@@ -70,15 +70,15 @@ export default function Play({ title, artist, audioSrc, thumbnailSrc }) {
         <button id="guess" onClick={guessHandler} disabled={playing} className={`rounded ${ !playing && 'text-emerald-400 hover:scale-110 focus:scale-110 outline-0' } p-1 transition-all duration-500`}>Tell me</button>
       </div>
 
-      <audio src={audioSrc} />
+      <audio src={url} />
     </div>
   )
 }
 
 export async function getServerSideProps({ query }) {
-  const audioSrc = decodeURIComponent(query['audio-src'])
+  const url = decodeURIComponent(query['audio-src'])
   const title = decodeURIComponent(query['title'])
   const artist = decodeURIComponent(query['artist'])
-  const thumbnailSrc = decodeURIComponent(query['thumbnail-src'])
-  return { props: { title, artist, audioSrc, thumbnailSrc }}
+  const thumbnail = decodeURIComponent(query['thumbnail-src'])
+  return { props: { title, artist, url, thumbnail }}
 }

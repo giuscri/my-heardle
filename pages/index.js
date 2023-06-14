@@ -1,67 +1,67 @@
 import GenreCard from "../components/GenreCard";
 import { createClient } from 'redis';
 
-export default function Genre({ pop, metal, evergreen, cartoons, christmas, italian }) {
+export default function Genre({ pop, metal, evergreen, cartoons, christmas, italians }) {
     return (
     <div className="grid grid-cols-3 items-center">
         <GenreCard
         genreHuman="Evergreen"
         genreId="evergreen"
         artworkSrc='/nina-simone.jpg'
-        audioSrc={evergreen.audioSrc}
+        url={evergreen.url}
         title={evergreen.title}
         artist={evergreen.artist}
-        thumbnailSrc={evergreen.thumbnailSrc}
+        thumbnail={evergreen.thumbnail}
         />
 
         <GenreCard
         genreId="pop"
         genreHuman="Pop"
         artworkSrc='/anastacia.jpg'
-        audioSrc={pop.audioSrc}
+        url={pop.url}
         title={pop.title}
         artist={pop.artist}
-        thumbnailSrc={pop.thumbnailSrc}
+        thumbnail={pop.thumbnail}
         />
 
         <GenreCard
         genreId="metal"
         genreHuman="Metal & Rock"
         artworkSrc='/megadeth.jpg'
-        audioSrc={metal.audioSrc}
+        url={metal.url}
         title={metal.title}
         artist={metal.artist}
-        thumbnailSrc={metal.thumbnailSrc}
+        thumbnail={metal.thumbnail}
         />
 
         <GenreCard
         genreHuman="Cartoons"
         genreId="cartoons"
         artworkSrc='/goku.gif'
-        audioSrc={cartoons.audioSrc}
+        url={cartoons.url}
         title={cartoons.title}
         artist={cartoons.artist}
-        thumbnailSrc={cartoons.thumbnailSrc}
+        thumbnail={cartoons.thumbnail}
         />
 
         <GenreCard
         genreHuman="Christmas"
         genreId="christmas"
         artworkSrc='/george-michael.jpg'
-        audioSrc={christmas.audioSrc}
+        url={christmas.url}
         title={christmas.title}
         artist={christmas.artist}
-        thumbnailSrc={christmas.thumbnailSrc}
+        thumbnail={christmas.thumbnail}
         />
 
         <GenreCard
-        genreHuman="Italian"
-        genreId="italian"
+        genreHuman="Italians"
+        genreId="italians"
         artworkSrc='/883.jpg'
-        audioSrc={italian.audioSrc}
-        title={italian.title}
-        artist={italian.artist}
-        thumbnailSrc={italian.thumbnailSrc}
+        url={italians.url}
+        title={italians.title}
+        artist={italians.artist}
+        thumbnailSrc={italians.thumbnailSrc}
         />
     </div>
     )
@@ -71,7 +71,7 @@ export async function getServerSideProps() {
     const client = createClient({ url: 'redis://localhost:6379' })
     await client.connect()
 
-    const genres = [ 'pop', 'metal', 'christmas', 'cartoons', 'italian', 'evergreen' ]
+    const genres = [ 'pop', 'metal', 'christmas', 'cartoons', 'italians', 'evergreen' ]
 
     let props = {}
     for (let g of genres) {
