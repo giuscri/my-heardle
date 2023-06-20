@@ -1,6 +1,6 @@
-export default function GenreCard({ genreId, genreHuman, artworkSrc, audioSrc, title, artist, thumbnailSrc }) {
+export default function GenreCard({ genreId, genreHuman, artworkSrc, url, title, artist, thumbnail }) {
     return (
-        <a href={`/play?audio-src=${encodeURIComponent(audioSrc)}&title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&thumbnail-src=${encodeURIComponent(thumbnailSrc)}`}>
+        <a href={`/play?audio-src=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&thumbnail-src=${encodeURIComponent(thumbnail)}`}>
         <div className="text-center flex flex-col text-sm">
             <p className="text-lime-50" style={{textShadow: 'yellow 1px 0 10px'}}>{genreHuman}</p>
             <img src={artworkSrc} className="h-[250px] self-center items-center rounded-sm shadow-xl hover:shadow-lime-50 hover:scale-110 focus:scale-110 transition-all duration-500 delay-75" />
