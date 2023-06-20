@@ -77,9 +77,7 @@ do
     temp_list_name="${playlist_name}_temp"
     final_list_name="${playlist_name}"
 
-    # Delete existing Redis lists if they exist
     redis-cli -h $redis_host del $temp_list_name
-    redis-cli -h $redis_host del $final_list_name
 
     # Push audio URLs to temporary Redis list
     yt-dlp --get-id "$yt_playlist" | parallel -j $parallel_jobs "\
@@ -87,10 +85,9 @@ do
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
     redis-cli -h $redis_host rpush $temp_list_name \"\$(echo \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}')\""
 
+    redis-cli -h $redis_host del $final_list_name
+
     # Shuffle the temporary Redis list and push to the final list
     redis-cli -h $redis_host lrange $temp_list_name 0 -1 | shuf | while read item; do redis-cli -h $redis_host rpush $final_list_name "$item"; done
-
-    # Delete temporary Redis list
-    redis-cli -h $redis_host del $temp_list_name
 done
 } 1>/dev/null
