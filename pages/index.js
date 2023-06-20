@@ -54,6 +54,16 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, ital
         thumbnail={christmas.thumbnail}
         />
 
+        {/* <GenreCard
+        genreHuman="Summer"
+        genreId="summer"
+        artworkSrc='/borat.jpg'
+        url={summer.url}
+        title={summer.title}
+        artist={summer.artist}
+        thumbnail={summer.thumbnail}
+        /> */}
+
         <GenreCard
         genreHuman="Italians"
         genreId="italians"
