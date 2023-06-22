@@ -83,7 +83,7 @@ do
     yt-dlp --get-id "$yt_playlist" | parallel -j $parallel_jobs "\
     audio_url=\$(yt-dlp -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
-    redis-cli -h $redis_host rpush $temp_list_name \"\$(echo \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}')\""
+    redis-cli -h $redis_host rpush $temp_list_name \"\$(echo -E \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}')\""
 
     redis-cli -h $redis_host del $final_list_name
 
