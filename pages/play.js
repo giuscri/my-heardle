@@ -3,7 +3,7 @@ import confetti from "canvas-confetti"
 
 export default function Play({ title, artist, url, thumbnail }) {
   const MAX_SCORE = 5000
-  const STEP = 2000
+  const STEP = 1500
   const [score, setScore] = useState(MAX_SCORE)
   const [durationMs, setDurationMs] = useState(1000)
   const [playing, setPlaying] = useState(false)
@@ -14,8 +14,8 @@ export default function Play({ title, artist, url, thumbnail }) {
   }
 
   function nextHintHandler() {
-    if (score-1000 > 0) {
-      setScore(score - 1000)
+    if (Math.floor(score/10) > 0) {
+      setScore(Math.floor(score/10))
       setDurationMs(ms => {
         play(ms + STEP)
         return ms + STEP
