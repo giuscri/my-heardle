@@ -3,7 +3,7 @@ start:
 
 populate:
 	docker compose up -d
-	cd scripts && time ./populate-redis.sh -j16 -f config.yaml; cd -
+	cd scripts/populate-redis; docker build . -t populate-redis:latest; docker run --rm -ti populate-redis; cd -
 
 build: populate
 	npm run build
