@@ -1,5 +1,10 @@
 #!/bin/bash
 
+redis-cli() {
+    # suppress stdout for redis-cli which is useless
+    command redis-cli "$@" &>/dev/null;
+}
+
 # Check if necessary tools are installed
 for cmd in yt-dlp parallel jq redis-cli shuf yq; do
     if ! command -v $cmd &> /dev/null; then
@@ -80,18 +85,23 @@ do
     redis-cli -h $redis_host del $temp_list_name
 
     # Push audio URLs to temporary Redis list
-    yt-dlp --get-id "$yt_playlist" | parallel -j $parallel_jobs "\
+    yt-dlp --get-id "$yt_playlist" | parallel -u -j $parallel_jobs "\
+    echo \"### downloading video {}...\" ;\
     audio_url=\$(yt-dlp -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
     json_string=\$(echo -E \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}' 2>/dev/null) ;\
     if [[ \$json_string ]]; then \
-        redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\"; \
+        echo \"### inserting into {} into redis...\" ;\
+        redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\" &>/dev/null ;\
     fi \
     "
+    # NOTE: the earlier definition of `redis-cli` is NOT working in the `parallel`
+    # _context_ as function definitions are not exportable/visibile to subprocesses.
 
     redis-cli -h $redis_host del $final_list_name
 
+    echo "### shuffling songs into ${final_list_name}..."
     # Shuffle the temporary Redis list and push to the final list
     redis-cli -h $redis_host lrange $temp_list_name 0 -1 | shuf | while read -r item; do redis-cli -h $redis_host rpush $final_list_name "$item"; done
 done
-} 1>/dev/null
+}
