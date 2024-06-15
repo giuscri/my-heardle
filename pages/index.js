@@ -1,7 +1,7 @@
 import GenreCard from "../components/GenreCard";
 import { createClient } from 'redis';
 
-export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*summer,*/ italians }) {
+export default function Genre({ pop, metal, evergreen, cartoons, /*christmas,*/ summer, italians }) {
     const genres = [
         {
             genreHuman: "Evergreen",
@@ -39,24 +39,24 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
             artist: cartoons.artist,
             thumbnail: cartoons.thumbnail
         },
-        {
-            genreHuman: "Christmas",
-            genreId: "christmas",
-            artworkSrc: '/george-michael.jpg',
-            url: christmas.url,
-            title: christmas.title,
-            artist: christmas.artist,
-            thumbnail: christmas.thumbnail
-        },
         // {
-        //     genreHuman: "Festivalbar",
-        //     genreId: "summer",
-        //     artworkSrc: '/festivalbar.jpg',
-        //     url: summer.url,
-        //     title: summer.title,
-        //     artist: summer.artist,
-        //     thumbnail: summer.thumbnail
+        //     genreHuman: "Christmas",
+        //     genreId: "christmas",
+        //     artworkSrc: '/george-michael.jpg',
+        //     url: christmas.url,
+        //     title: christmas.title,
+        //     artist: christmas.artist,
+        //     thumbnail: christmas.thumbnail
         // },
+        {
+            genreHuman: "Festivalbar",
+            genreId: "summer",
+            artworkSrc: '/festivalbar.jpg',
+            url: summer.url,
+            title: summer.title,
+            artist: summer.artist,
+            thumbnail: summer.thumbnail
+        },
         {
             genreHuman: "Italians",
             genreId: "italians",
@@ -91,8 +91,8 @@ export async function getServerSideProps() {
     const client = createClient({ url: 'redis://localhost:6379' })
     await client.connect()
 
-    const genres = [ 'pop', 'metal', 'christmas', 'cartoons', 'italians', 'evergreen' ]
-    // const genres = [ 'pop', 'metal', 'summer', 'cartoons', 'italians', 'evergreen' ]
+    // const genres = [ 'pop', 'metal', 'christmas', 'cartoons', 'italians', 'evergreen' ]
+    const genres = [ 'pop', 'metal', 'summer', 'cartoons', 'italians', 'evergreen' ]
 
     let props = {}
     for (let g of genres) {
