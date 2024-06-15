@@ -2,7 +2,7 @@
 
 redis-cli() {
     # suppress stdout for redis-cli which is useless
-    command redis-cli "$@" &>/dev/null;
+    command redis-cli "$@" 1>/dev/null;
 }
 
 # Check if necessary tools are installed
@@ -91,8 +91,8 @@ do
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
     json_string=\$(echo -E \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}' 2>/dev/null) ;\
     if [[ \$json_string ]]; then \
-        echo \"### inserting into {} into redis...\" ;\
-        redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\" &>/dev/null ;\
+        echo \"### inserting into {} into redis list $temp_list_name...\" ;\
+        redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\" 1>/dev/null ;\
     fi \
     "
     # NOTE: the earlier definition of `redis-cli` is NOT working in the `parallel`
