@@ -1,11 +1,6 @@
 # MyHeardle
 
-## Populate DB
+# TL;DR
 ```
-make build
-```
-
-## Launch game
-```
-make start
+make
 ```
