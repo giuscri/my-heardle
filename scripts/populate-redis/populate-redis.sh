@@ -1,8 +1,9 @@
 #!/bin/bash
 
 redis-cli() {
-    # suppress stdout for redis-cli which is useless
-    command redis-cli "$@" 1>/dev/null;
+    # suppress unwanted stdout for redis-cli when adding/deleting
+    # from list (e.g. "(integer) 1")
+    command redis-cli "$@" | { grep -Ev '^[0-9]+$' || true; }
 }
 
 # Check if necessary tools are installed
@@ -82,7 +83,21 @@ do
     temp_list_name="${playlist_name}_temp"
     final_list_name="${playlist_name}"
 
-    redis-cli -h $redis_host del $temp_list_name
+    if [[ -z $final_list_name ]]; then
+        # When launching the script it seems like the above
+        # `yt-dlp ... | jq ... | head` could fail making
+        # yt-dlp outputting a "broken pipe" error. I didn't
+        # have the time to investigate more about this but
+        # it doesn't seem to prevent the script from successfully
+        # loading the Redis lists. If the "broken pipe" error
+        # result in the playlist name not to be computed we should
+        # stop here. The at-the-time developer should probably debug
+        # this then.
+        echo '### fatal: playlist name NOT computed!'
+        break
+    fi
+
+    # redis-cli -h $redis_host del $temp_list_name
 
     # Push audio URLs to temporary Redis list
     yt-dlp --get-id "$yt_playlist" | parallel -u -j $parallel_jobs "\
@@ -95,8 +110,9 @@ do
         redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\" 1>/dev/null ;\
     fi \
     "
-    # NOTE: the earlier definition of `redis-cli` is NOT working in the `parallel`
+    # NOTE: the earlier definition of `redis-cli` can NOT working in the `parallel`
     # _context_ as function definitions are not exportable/visibile to subprocesses.
+    # That's why we're redirecting stdout to /dev/null.
 
     redis-cli -h $redis_host del $final_list_name
 
