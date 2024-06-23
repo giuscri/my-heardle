@@ -97,7 +97,7 @@ do
         break
     fi
 
-    # redis-cli -h $redis_host del $temp_list_name
+    redis-cli -h $redis_host del $temp_list_name
 
     # Push audio URLs to temporary Redis list
     yt-dlp --get-id "$yt_playlist" | parallel -u -j $parallel_jobs "\
