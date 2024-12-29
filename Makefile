@@ -7,4 +7,5 @@ populate:
 
 build:
 	@echo "!!! REMEMBER TO POPULATE YOUR REDIS INSTANCE !!! (\`make populate\` perhaps?)"
+	npm install
 	npx next build
