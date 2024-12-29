@@ -6,7 +6,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
         {
             genreHuman: "Evergreen",
             genreId: "evergreen",
-            artworkSrc: '/nina-simone.jpg',
+            artworkSrc: '/nina-simone.gif',
             url: evergreen.url,
             title: evergreen.title,
             artist: evergreen.artist,
@@ -15,7 +15,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
         {
             genreHuman: "Pop",
             genreId: "pop",
-            artworkSrc: '/anastacia.jpg',
+            artworkSrc: '/anastacia.gif',
             url: pop.url,
             title: pop.title,
             artist: pop.artist,
@@ -24,7 +24,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
         {
             genreHuman: "Metal & Rock",
             genreId: "metal",
-            artworkSrc: '/megadeth.jpg',
+            artworkSrc: '/megadeth.gif',
             url: metal.url,
             title: metal.title,
             artist: metal.artist,
@@ -42,7 +42,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
         {
             genreHuman: "Christmas",
             genreId: "christmas",
-            artworkSrc: '/george-michael.jpg',
+            artworkSrc: '/george-michael.gif',
             url: christmas.url,
             title: christmas.title,
             artist: christmas.artist,
@@ -60,7 +60,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
         {
             genreHuman: "Italians",
             genreId: "italians",
-            artworkSrc: '/883.jpg',
+            artworkSrc: '/883.gif',
             url: italians.url,
             title: italians.title,
             artist: italians.artist,
