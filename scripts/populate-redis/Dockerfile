@@ -1,6 +1,6 @@
 FROM alpine
 
-ADD https://github.com/yt-dlp/yt-dlp/releases/download/2024.05.26/yt-dlp_linux /usr/local/bin/yt-dlp
+ADD https://github.com/yt-dlp/yt-dlp/releases/download/2024.12.23/yt-dlp_linux_aarch64 /usr/local/bin/yt-dlp
 RUN chmod +x /usr/local/bin/yt-dlp
 
 RUN apk add -U parallel bash jq yq redis
@@ -8,4 +8,5 @@ RUN apk add -U parallel bash jq yq redis
 COPY config.yaml .
 COPY populate-redis.sh .
 
-CMD ["./populate-redis.sh", "-j16", "-f", "config.yaml"]
+# `sysctl -n hw.ncpu` returns 11 on current daily driver (macbook pro)
+CMD ["./populate-redis.sh", "-j11", "-f", "config.yaml"]
