@@ -1,7 +1,7 @@
 import GenreCard from "../components/GenreCard";
 import { createClient } from 'redis';
 
-export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*summer,*/ italians }) {
+export default function Genre({ pop, metal, evergreen, cartoons, christmas, summer, italians }) {
     const genres = [
         {
             genreHuman: "Evergreen",
@@ -40,24 +40,6 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
             thumbnail: cartoons.thumbnail
         },
         {
-            genreHuman: "Christmas",
-            genreId: "christmas",
-            artworkSrc: '/george-michael.gif',
-            url: christmas.url,
-            title: christmas.title,
-            artist: christmas.artist,
-            thumbnail: christmas.thumbnail
-        },
-        // {
-        //     genreHuman: "Festivalbar",
-        //     genreId: "summer",
-        //     artworkSrc: '/festivalbar.jpg',
-        //     url: summer.url,
-        //     title: summer.title,
-        //     artist: summer.artist,
-        //     thumbnail: summer.thumbnail
-        // },
-        {
             genreHuman: "Italians",
             genreId: "italians",
             artworkSrc: '/883.gif',
@@ -65,8 +47,30 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
             title: italians.title,
             artist: italians.artist,
             thumbnail: italians.thumbnail
-        }
+        },
     ]
+
+    if (process.env.HEARDLE_CHRISTMAS === "true") {
+        genres.push({
+            genreHuman: "Christmas",
+            genreId: "christmas",
+            artworkSrc: '/george-michael.gif',
+            url: christmas.url,
+            title: christmas.title,
+            artist: christmas.artist,
+            thumbnail: christmas.thumbnail
+        })
+    } else {
+        genres.push({
+            genreHuman: "Festivalbar",
+            genreId: "summer",
+            artworkSrc: '/festivalbar.jpg',
+            url: summer.url,
+            title: summer.title,
+            artist: summer.artist,
+            thumbnail: summer.thumbnail
+        })
+    }
 
     return (
         <div className="grid grid-cols-3 items-center">
@@ -88,19 +92,17 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, /*su
 }
 
 export async function getServerSideProps() {
-    const client = createClient({ url: 'redis://localhost:6379' })
+    const client = createClient({ url: 'redis://0.0.0.0:6379' })
     await client.connect()
 
-    const genres = [ 'pop', 'metal', 'christmas', 'cartoons', 'italians', 'evergreen' ]
-    // const genres = [ 'pop', 'metal', 'summer', 'cartoons', 'italians', 'evergreen' ]
+    const genres = [ 'pop', 'metal', 'christmas', 'summer', 'cartoons', 'italians', 'evergreen' ]
 
     let props = {}
     for (let g of genres) {
-        // props[g] = {} // 
         const j = await client.LPOP(g)
         try {
-            props[g] = JSON.parse(j) || {} // Allow genre Redis list to be empty without breaking the app
-            await client.RPUSH(g, JSON.stringify(props[g])) // Prevent songs from finishing while having fun
+            props[g] = JSON.parse(j) || {} // allow genre redis list to be empty without breaking the app
+            await client.RPUSH(g, JSON.stringify(props[g])) // prevent songs from finishing while having fun
         } catch (e) {
             console.log(e, j)
         }

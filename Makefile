@@ -1,4 +1,5 @@
 start: build
+	export HEARDLE_CHRISTMAS=true # set to "false" when it's a non-christmas party
 	npx next start --port=9042
 
 populate:
