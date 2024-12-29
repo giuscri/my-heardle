@@ -106,7 +106,8 @@ do
     audio_url=\$(yt-dlp -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
     json_string=\$(echo -E \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}' 2>/dev/null) ;\
-    if [[ \$json_string ]]; then \
+    echo $json_string ;\
+    if [[ \"\$json_string\" ]]; then \
         echo \"### inserting into {} into redis list $temp_list_name...\" ;\
         redis-cli -h $redis_host rpush $temp_list_name \"\$json_string\" 1>/dev/null ;\
     fi \
