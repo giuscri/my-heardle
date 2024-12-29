@@ -101,6 +101,7 @@ do
 
     # Push audio URLs to temporary Redis list
     yt-dlp --get-id "$yt_playlist" | parallel -u -j $parallel_jobs "\
+    # set -x ;\ # re-enable for debugging
     echo \"### downloading video {}...\" ;\
     audio_url=\$(yt-dlp -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
     video_info=\$(yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
