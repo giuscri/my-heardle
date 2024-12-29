@@ -2,7 +2,8 @@
 
 # TL;DR
 ```
-make
+make populate
+make start
 ```
 
 # TODO
