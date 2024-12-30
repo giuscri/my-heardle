@@ -95,7 +95,7 @@ do
     redis-cli -h $redis_host del $temp_list_name
 
     # push audio urls to tmp redis lists
-    yt-dlp --get-id "$yt_playlist" | parallel -j $parallel_jobs "\
+    yt-dlp --flat-playlist --print id "$yt_playlist" | parallel -u -j $parallel_jobs "\
     # set -x ;\ # re-enable for debugging
     echo \"### downloading video {}...\" ;\
     audio_url=\$(/usr/local/bin/yt-dlp.d/yt-dlp_macos -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\

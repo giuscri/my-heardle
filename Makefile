@@ -4,7 +4,7 @@ start: build
 
 populate:
 	docker compose up -d
-	cd scripts/populate-redis; ./populate-redis.sh; cd -
+	cd scripts/populate-redis; ./populate-redis.sh -f config.yaml; cd -
 
 build:
 	@echo "!!! REMEMBER TO POPULATE YOUR REDIS INSTANCE !!! (\`make populate\` perhaps?)"
