@@ -1,7 +1,7 @@
 import { useState } from "react"
 import confetti from "canvas-confetti"
 
-export default function Play({ title, artist, url, thumbnail }) {
+export default function Play({ title, url, thumbnail }) {
   const MAX_SCORE = 5000
   const STEP = 1500
   const [score, setScore] = useState(MAX_SCORE)
@@ -78,7 +78,8 @@ export default function Play({ title, artist, url, thumbnail }) {
 export async function getServerSideProps({ query }) {
   const url = decodeURIComponent(query['audio-src'])
   const title = decodeURIComponent(query['title'])
-  const artist = decodeURIComponent(query['artist'])
   const thumbnail = decodeURIComponent(query['thumbnail-src'])
-  return { props: { title, artist, url, thumbnail }}
+  // const artist = decodeURIComponent(query['artist'])
+  // return { props: { title, artist, url, thumbnail }}
+  return { props: { title, url, thumbnail }}
 }

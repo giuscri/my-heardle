@@ -1,4 +1,4 @@
-export default function GenreCard({ i, genreId, genreHuman, artworkSrc, url, title, artist, thumbnail }) {
+export default function GenreCard({ i, genreHuman, artworkSrc, url, title, artist, thumbnail }) {
     return (
         <a href={`/play?audio-src=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}&thumbnail-src=${encodeURIComponent(thumbnail)}`}>
             <div className="text-center text-sm">
