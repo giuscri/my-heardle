@@ -1,7 +1,7 @@
 import GenreCard from "../components/GenreCard";
 import { createClient } from 'redis';
 
-export default function Genre({ pop, metal, evergreen, cartoons, christmas, summer, italians }) {
+export default function Genre({ pop, metal, evergreen, cartoons, christmas, summer, italians, isChristmas }) {
     const genres = [
         {
             genreHuman: "Evergreen",
@@ -50,7 +50,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, summ
         },
     ]
 
-    if (process.env.HEARDLE_CHRISTMAS === "true") {
+    if (isChristmas) {
         genres.push({
             genreHuman: "Christmas",
             genreId: "christmas",
@@ -74,7 +74,7 @@ export default function Genre({ pop, metal, evergreen, cartoons, christmas, summ
 
     return (
         <div className="grid grid-cols-3 items-center">
-            {genres.map((genre, index) => 
+            {genres.map((genre, index) =>
                 <GenreCard
                     i={index+1}
                     key={genre.genreId}
@@ -108,5 +108,5 @@ export async function getServerSideProps() {
         }
     }
 
-    return { props }
+    return { props: { ...props, isChristmas: !!process.env.HEARDLE_CHRISTMAS } }
 }

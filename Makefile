@@ -1,5 +1,8 @@
+# set to empty or remove line to disable christmas mode
+HEARDLE_CHRISTMAS ?= true
+export HEARDLE_CHRISTMAS
+
 start: build
-	export HEARDLE_CHRISTMAS=true # set to "false" when it's a non-christmas party
 	npx next start --port=9042
 
 populate:
