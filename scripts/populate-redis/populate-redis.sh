@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-yt-dlp() {
-    /usr/local/bin/yt-dlp.d/yt-dlp_macos "$@"
-}
+# yt-dlp() {
+#     /usr/local/bin/yt-dlp.d/yt-dlp "$@"
+# }
 
 redis-cli() {
     # suppress unwanted stdout for redis-cli when adding/deleting
@@ -98,8 +98,8 @@ do
     yt-dlp --flat-playlist --print id "$yt_playlist" | parallel -u -j $parallel_jobs "\
     # set -x ;\ # re-enable for debugging
     echo \"### downloading video {}...\" ;\
-    audio_url=\$(/usr/local/bin/yt-dlp.d/yt-dlp_macos -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
-    video_info=\$(/usr/local/bin/yt-dlp.d/yt-dlp_macos --dump-json 'https://www.youtube.com/watch?v={}') ;\
+    audio_url=\$(~/.local/bin/yt-dlp -f bestaudio --get-url 'https://www.youtube.com/watch?v={}') ;\
+    video_info=\$(~/.local/bin/yt-dlp --dump-json 'https://www.youtube.com/watch?v={}') ;\
     json_string=\$(echo -E \$video_info | jq -c --arg url \$audio_url '{title: .title, artist: .uploader, thumbnail: .thumbnail, url: \$url}' 2>/dev/null) ;\
     if [[ \"\$json_string\" ]]; then \
         echo \"### inserting into {} into redis list $temp_list_name...\" ;\

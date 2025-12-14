@@ -7,7 +7,8 @@ playlists:
 - https://music.youtube.com/playlist?list=PLIzPbE6Bl1Sqztlj0yxDGu2h0Ca_YskZ8 # christmas
 - https://music.youtube.com/browse/VLPLIzPbE6Bl1SrD7PZnyXf7mVnttL9ILtAW # summer
 redis-host: 0.0.0.0
-jobs: 11
+#jobs: 11
+jobs: 50
 
 # stats:
 # time: ??? with j=11
