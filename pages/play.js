@@ -5,7 +5,7 @@ export default function Play({ title, url, thumbnail }) {
   const MAX_SCORE = 5000
   const STEP = 1500
   const [score, setScore] = useState(MAX_SCORE)
-  const [durationMs, setDurationMs] = useState(1000)
+  const [durationMs, setDurationMs] = useState(2000)
   const [playing, setPlaying] = useState(false)
   const [guessed, setGuessed] = useState(false)
 
